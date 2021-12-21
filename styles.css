@@ -1,0 +1,125 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+h1 {
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+button {
+    cursor: pointer;
+}
+
+.game {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.current_player {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.playfield {
+    width: 300px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+#square_1,
+#square_2,
+#square_3 {
+    border-top: none;
+}
+
+#square_7,
+#square_8,
+#square_9 {
+    border-bottom: none;
+}
+
+#square_1,
+#square_4,
+#square_7 {
+    border-left: none;
+}
+
+#square_3,
+#square_6,
+#square_9 {
+    border-right: none;
+}
+
+.row {
+    flex: 1;
+    width: 300px;
+    display: flex;
+}
+
+.square {
+    border: 2px solid black;
+    background: none;
+    flex: 1;
+    font-size: 3rem;
+}
+
+.start_screen {
+    position: fixed;
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    height: 7.5rem;
+    width: 22rem;
+}
+
+.play_mode, .name_one, .name_two {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.hidden {
+    display: none;
+}
+
+.submit_button {
+    margin-left: auto;
+}
+
+.submit_button button {
+    width: 6rem;
+}
+
+.two_buttons button {
+    width: 5rem;
+}
+
+.required_text {
+    font-size: .75rem;
+}
+
+.required_errors {
+    color: red;
+    list-style-type: none;
+}
+
+.selected {
+    background: gray;
+}

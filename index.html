@@ -1,0 +1,66 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+
+    <title>Document</title>
+</head>
+<body>
+    <h1>Tic-Tac-Toe</h1>
+
+    <div class="start_screen">
+        <div class="play_mode">
+            <p>Play Mode</p>
+            <div class="two_buttons">
+                <button id="ai">AI</button>
+                <button id="multiplayer">2 Players</button>
+            </div>
+        </div>
+
+        <div class="name_one">
+            <p>Player 1 Name</p>
+            <input type="text">
+        </div>
+
+        <div class="name_two hidden">
+            <p>Player 2 Name</p>
+            <input type="text">
+        </div>
+
+        <div class="required_text">
+            <div class="required_errors">
+                
+            </div>
+        </div>
+
+        <div class="submit_button">
+            <button id="submit">Start Game</button>
+        </div>
+    </div>
+
+    <div class="game hidden">
+        <div class="current_player"></div>
+        <div class="playfield">
+            <div class="row">
+                <button id="square_1" class="square"></button>
+                <button id="square_2" class="square"></button>
+                <button id="square_3" class="square"></button>
+            </div>
+            <div class="row">
+                <button id="square_4" class="square"></button>
+                <button id="square_5" class="square"></button>
+                <button id="square_6" class="square"></button>
+            </div>
+            <div class="row">
+                <button id="square_7" class="square"></button>
+                <button id="square_8" class="square"></button>
+                <button id="square_9" class="square"></button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
