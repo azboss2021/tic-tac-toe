@@ -6,7 +6,7 @@ const GameBoard = (() => {
         [0,3,6],
         [1,4,7],
         [2,5,8],
-        [0,5,8],
+        [0,4,8],
         [2,4,6]
     ]
     const board = [
@@ -17,10 +17,31 @@ const GameBoard = (() => {
     const checkWin = (symbol) => {
         return winningCombinations.some(combination=>{
             return combination.every(num=>{
-                return document.getElementById(num).textContent === symbol;
+                return board[Math.floor(num/3)][num%3] === symbol;
             })
         })
     };
+    const checkDraw = () => {
+        return [...document.querySelectorAll(".square")].every(square => {
+            return square.textContent !== "";
+        })
+    }
+    const newGame = () => {
+        
+    }
+    const resetBoard = () => {
+        board.forEach(row => {
+            row.forEach(box => {
+                box = "";
+            })
+        })
+        clearBoardUI();
+    }
+    const clearBoardUI = () => {
+        [...document.querySelectorAll(".square")].forEach(square => {
+            square.textContent = "";
+        });
+    }
     const addSymbol = (symbol, id) => {
         board[Math.floor(id/3)][id%3] = symbol;
         updateBoard(id);
@@ -33,8 +54,11 @@ const GameBoard = (() => {
     }
     return {
         checkWin,
+        checkDraw,
+        resetBoard,
         addSymbol,
-        updatePlayer
+        updatePlayer,
+        newGame
     }
 })();
 
@@ -47,6 +71,12 @@ const Player = (name, symbol) => {
 function gameModePhase() {
     const aiButton = document.querySelector("#ai");
     const mpButton = document.querySelector("#mp");
+    const gameModeScreen = document.querySelector(".gamemode_screen");
+    const playScreen = document.querySelector(".play_screen");
+    const resultScreen = document.querySelector(".result_screen");
+    playScreen.classList.add("hidden");
+    resultScreen.classList.add("hidden");
+    gameModeScreen.classList.remove("hidden");
     
     aiButton.addEventListener('click', () => namePhase("ai"));
     mpButton.addEventListener('click', () => namePhase("mp"));
@@ -100,15 +130,18 @@ function playPhase(mode, ...players) {
     const mpNameScreen = document.querySelector(".mp_name_screen");
     const aiNameScreen = document.querySelector(".ai_name_screen");
     const playScreen = document.querySelector(".play_screen");
+    const resultScreen = document.querySelector(".result_screen");
 
     mpNameScreen.classList.add("hidden");
     aiNameScreen.classList.add("hidden");
+    resultScreen.classList.add("hidden");
     playScreen.classList.remove("hidden");
 
     let currentPlayer = players[0];
     let currentSymbol = "X";
     let currentTurn = 0;
 
+    GameBoard.resetBoard();
     GameBoard.updatePlayer(currentPlayer);
 
     if(mode==="ai"){
@@ -126,11 +159,12 @@ function playPhase(mode, ...players) {
             GameBoard.addSymbol(currentSymbol, square.id);
 
             if(GameBoard.checkWin(square.textContent)) {
-                resultPhase(currentPlayer);
+                resultPhase(false, "mp", currentPlayer, ...players);
                 gameOver = true;
             }
             else if(GameBoard.checkDraw()){
-                
+                resultPhase(true, "mp", ...players);
+                gameOver = true;
             }
             else {
                 if(currentPlayer === players[0]) currentPlayer = players[1];
@@ -138,20 +172,29 @@ function playPhase(mode, ...players) {
                 GameBoard.updatePlayer(currentPlayer);
             }
             currentTurn++;
-        }));   
+        }));
     }
 }
 
-function resultPhase(player) {
+function resultPhase(draw, mode, currentPlayer, ...players) {
     const resultScreen = document.querySelector(".result_screen");
     resultScreen.classList.remove("hidden");
     
     const result = document.querySelector(".result");
-    result.textContent = `${player.getName()} won!`;
+    if(!draw) {
+        result.textContent = `${currentPlayer.getName()} won!`;
+    } else {
+        result.textContent = `Its a draw!`;
+    }
 
     const playAgainButton = document.querySelector(".play_again");
     const newGameButton = document.querySelector(".new_game");
+    playAgainButton.addEventListener('click', () => {playPhase(mode, ...players)});
+    newGameButton.addEventListener('click', () => {GameBoard.newGame()});
 }
 
+function createPlayers(player1, player2) {
+
+}
 gameModePhase();
 //playPhase();
