@@ -1,119 +1,157 @@
-const Player = (name) => {
-    let _name = name;
-    const getName = () => { return _name };
-    const setName = (str) => { _name = str };
-    return {getName, setName};
+const GameBoard = (() => {
+    const winningCombinations = [
+        [0,1,2],
+        [3,4,5],
+        [6,7,8],
+        [0,3,6],
+        [1,4,7],
+        [2,5,8],
+        [0,5,8],
+        [2,4,6]
+    ]
+    const board = [
+        ['','',''],
+        ['','',''],
+        ['','','']
+    ];
+    const checkWin = (symbol) => {
+        return winningCombinations.some(combination=>{
+            return combination.every(num=>{
+                return document.getElementById(num).textContent === symbol;
+            })
+        })
+    };
+    const addSymbol = (symbol, id) => {
+        board[Math.floor(id/3)][id%3] = symbol;
+        updateBoard(id);
+    }
+    const updateBoard = (id) => {
+        document.getElementById(id).textContent = board[Math.floor(id/3)][id%3];
+    }
+    const updatePlayer = (player) => {
+        document.querySelector(".current_player").textContent = `${player.getName()}'s Turn: ${player.getSymbol()}`;
+    }
+    return {
+        checkWin,
+        addSymbol,
+        updatePlayer
+    }
+})();
+
+const Player = (name, symbol) => {
+    const getSymbol = () => {return symbol};
+    const getName = () => {return name};
+    return {getSymbol, getName}
 }
 
-const GameBoard = (() => {
-    let gameMode = 0;
-    let currentTurn = 1;
-    let player1;
-    let player2;
-    const squares = document.querySelectorAll(".square");
-    const board = document.querySelector(".game");
-    const currentPlayerDiv = document.querySelector(".current_player");
-    const combos = [
-        ["square_1","square_2","square_3"],
-        ["square_4","square_5","square_6"],
-        ["square_7","square_8","square_9"],
-        ["square_2","square_5","square_8"],
-        ["square_1","square_4","square_7"],
-        ["square_3","square_6","square_9"],
-        ["square_1","square_5","square_9"],
-        ["square_3","square_5","square_7"]
-    ];
-    const setTurn = () => {currentTurn++};
-    const getTurn = () => {return currentTurn};
-    const setGameMode = (mode) => {gameMode = mode};
-    const getGameMode = () => {return gameMode};
-    const startGame = (firstPlayer, secondPlayer) => {
-        player1 = Player(firstPlayer);
-        if(firstPlayer === "") player1.setName("Player 1");
-        if(secondPlayer) {
-            player2 = Player(secondPlayer);
-            if(secondPlayer==="") player2.setName("Player 2");
-            else player2.setName(secondPlayer);
-        }
-        updatePlayer("X");
-        board.classList.remove("hidden");
-    }
-    const updatePlayer = (symbol) => {
-        let player;
-        if(symbol==="X") player = player1.getName();
-        else if(gameMode===1) player = player2.getName();
-        currentPlayerDiv.textContent = `${player}'s Turn: ${symbol}`;
-    }
-    const checkWin = button => {
-        const symbol = button.textContent;
-        return combos.some(combo => {
-            return combo.every(square => {
-                return Array.from(GameBoard.squares).find(element=>element.id===square).textContent === symbol;
-            });
-        });
-    };
-    squares.forEach(button => button.addEventListener('click', () => {
-        if(button.textContent !== "") return;
-        if(getTurn()%2==0) {
-            button.textContent = "O";
-            updatePlayer("X");
-        } else {
-            button.textContent = "X";
-            updatePlayer("O");
-        }
-        setTurn();
-        if(checkWin(button)) console.log("WIN");
-    }));
-    return {
-        squares,
-        checkWin,
-        setTurn,
-        getTurn,
-        setGameMode,
-        getGameMode,
-        startGame,
-        updatePlayer,
-    };
-})();
-
-const Display = (() => {
+function gameModePhase() {
     const aiButton = document.querySelector("#ai");
-    const multiplayerButton = document.querySelector("#multiplayer");
-    const startDisplay = document.querySelector(".start_screen");
+    const mpButton = document.querySelector("#mp");
+    
+    aiButton.addEventListener('click', () => namePhase("ai"));
+    mpButton.addEventListener('click', () => namePhase("mp"));
+}
 
-    aiButton.addEventListener('click', e => Display.toggleMode(e.target.id));
-    multiplayerButton.addEventListener('click', e => Display.toggleMode(e.target.id));
+function namePhase(mode) {
+    const gmScreen = document.querySelector(".gamemode_screen");
+    gmScreen.classList.add("hidden");
 
-    const toggleMode = buttonID => {
-        const nameInputTwo = document.querySelector(".name_two");
-        if(buttonID === "ai" && GameBoard.getGameMode() === 1) {
-            GameBoard.setGameMode(0);
-            nameInputTwo.classList.add("hidden");
-        }
-        if(buttonID === "multiplayer" && GameBoard.getGameMode() === 0) {
-            GameBoard.setGameMode(1);
-            nameInputTwo.classList.remove("hidden");
-        }
-    };
+    if(mode==="ai") {
+        const aiNameScreen = document.querySelector(".ai_name_screen");
+        aiNameScreen.classList.remove("hidden");
 
-    const submitButton = document.querySelector("#submit");
-    submitButton.addEventListener('click', () => {
-        const textInput = document.querySelector(".name_one").value;
-        const textInputTwo = "";
+        const player1 = document.querySelector(".ai_first_player_name");
+        player1.value = "";
 
-        if(GameBoard.getGameMode===1) {
-            textInputTwo = document.querySelector(".name_two").value;
-        }
-
-        startDisplay.classList.add("hidden");
-        GameBoard.startGame(textInput, textInputTwo);
-    });
-
-    return {
-        toggleMode,
+        const aiSubmit = document.querySelector(".ai_submit");
+        aiSubmit.addEventListener('click', () => {
+            if(player1.value === undefined || player1.value === "") return;
+            const player = Player(player1.value, "X");
+            playPhase(mode, player);
+        })
     }
-})();
 
-const AiFunction = (() => {
+    if(mode==="mp") {
+        const mpNameScreen = document.querySelector(".mp_name_screen");
+        mpNameScreen.classList.remove("hidden");
 
-})();
+        const player1 = document.querySelector(".mp_first_player_name");
+        const player2 = document.querySelector(".second_player_name");
+
+        player1.value = "";
+        player2.value = "";
+
+        const mpSubmit = document.querySelector(".mp_submit");
+        mpSubmit.addEventListener('click', () => {
+            if(player1.value === undefined || player1.value === "" ||
+            player2.value === undefined || player2.value === "") return;
+
+            const firstPlayer = Player(player1.value, "X");
+            const secondPlayer = Player(player2.value, "O");
+
+            playPhase(mode, firstPlayer, secondPlayer);
+        });
+    }
+}
+
+function playPhase(mode, ...players) {
+    let gameOver = false;
+
+    const mpNameScreen = document.querySelector(".mp_name_screen");
+    const aiNameScreen = document.querySelector(".ai_name_screen");
+    const playScreen = document.querySelector(".play_screen");
+
+    mpNameScreen.classList.add("hidden");
+    aiNameScreen.classList.add("hidden");
+    playScreen.classList.remove("hidden");
+
+    let currentPlayer = players[0];
+    let currentSymbol = "X";
+    let currentTurn = 0;
+
+    GameBoard.updatePlayer(currentPlayer);
+
+    if(mode==="ai"){
+
+    }
+
+    if(mode==="mp"){
+        const squares = Array.from(document.querySelectorAll(".square"));
+        squares.forEach(square => square.addEventListener('click', () => {
+            if(square.textContent !== "" || gameOver===true) return;
+
+            if(currentTurn%2==0) currentSymbol = "X";
+            else currentSymbol = "O";
+
+            GameBoard.addSymbol(currentSymbol, square.id);
+
+            if(GameBoard.checkWin(square.textContent)) {
+                resultPhase(currentPlayer);
+                gameOver = true;
+            }
+            else if(GameBoard.checkDraw()){
+                
+            }
+            else {
+                if(currentPlayer === players[0]) currentPlayer = players[1];
+                else currentPlayer = players[0];
+                GameBoard.updatePlayer(currentPlayer);
+            }
+            currentTurn++;
+        }));   
+    }
+}
+
+function resultPhase(player) {
+    const resultScreen = document.querySelector(".result_screen");
+    resultScreen.classList.remove("hidden");
+    
+    const result = document.querySelector(".result");
+    result.textContent = `${player.getName()} won!`;
+
+    const playAgainButton = document.querySelector(".play_again");
+    const newGameButton = document.querySelector(".new_game");
+}
+
+gameModePhase();
+//playPhase();
