@@ -15,6 +15,7 @@ const GameBoard = (() => {
         ['','','']
     ];
     const checkWin = (symbol) => {
+        console.log(board);
         return winningCombinations.some(combination=>{
             return combination.every(num=>{
                 return board[Math.floor(num/3)][num%3] === symbol;
@@ -27,14 +28,15 @@ const GameBoard = (() => {
         })
     }
     const newGame = () => {
-        
+        resetBoard();
+        gameModePhase();
     }
     const resetBoard = () => {
-        board.forEach(row => {
-            row.forEach(box => {
-                box = "";
-            })
-        })
+        for(let i=0;i<board[0].length;i++){
+            for(let j=0;j<board[0].length;j++){
+                board[i][j]="";
+            }
+        }
         clearBoardUI();
     }
     const clearBoardUI = () => {
@@ -159,24 +161,24 @@ function playPhase(mode, ...players) {
             GameBoard.addSymbol(currentSymbol, square.id);
 
             if(GameBoard.checkWin(square.textContent)) {
-                resultPhase(false, "mp", currentPlayer, ...players);
+                resultPhase(false, currentPlayer);
                 gameOver = true;
             }
             else if(GameBoard.checkDraw()){
-                resultPhase(true, "mp", ...players);
+                resultPhase(true);
                 gameOver = true;
             }
             else {
                 if(currentPlayer === players[0]) currentPlayer = players[1];
                 else currentPlayer = players[0];
                 GameBoard.updatePlayer(currentPlayer);
-            }
+            }   
             currentTurn++;
         }));
     }
 }
 
-function resultPhase(draw, mode, currentPlayer, ...players) {
+function resultPhase(draw, currentPlayer) {
     const resultScreen = document.querySelector(".result_screen");
     resultScreen.classList.remove("hidden");
     
@@ -187,14 +189,8 @@ function resultPhase(draw, mode, currentPlayer, ...players) {
         result.textContent = `Its a draw!`;
     }
 
-    const playAgainButton = document.querySelector(".play_again");
     const newGameButton = document.querySelector(".new_game");
-    playAgainButton.addEventListener('click', () => {playPhase(mode, ...players)});
     newGameButton.addEventListener('click', () => {GameBoard.newGame()});
 }
 
-function createPlayers(player1, player2) {
-
-}
 gameModePhase();
-//playPhase();

@@ -120,18 +120,11 @@ body {
     margin: 0;
 }
 
-.play_again, .new_game {
+.new_game {
     padding: .5rem 1rem;
     width: 10rem;
     font-size: 1.25rem;
     color: white;
-}
-
-.play_again {
-    background: rgba(0,150,0,1)
-}
-
-.new_game {
     background: rgba(0,0,255,.7)
 }
 
