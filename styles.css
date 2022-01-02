@@ -35,6 +35,18 @@ body {
     margin: auto;
 }
 
+#result {
+    margin: auto;
+    background: rgba(0,0,0,.1);
+    height: 200px;
+    width: 200px;
+    display: flex;
+}
+
+.container {
+    margin: auto;
+}
+
 #current_player {
     font-size: 1.5rem;
 }

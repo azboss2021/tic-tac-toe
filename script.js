@@ -24,17 +24,16 @@ const GameBoard = (() => {
     ]
     const playerDiv = document.querySelector("#current_player");
     let currentPlayer = player1;
-    let gameOver = false;
     const addSymbol = (id) => {
-        //if(gameOver = true) return;
-        if(board[Math.floor(id/3)][id%3]==="") {
-            board[Math.floor(id/3)][id%3]=currentPlayer.getSymbol();
-        } else {
-            return;
+        if(resultDiv.classList.contains("hidden")){
+            if(board[Math.floor(id/3)][id%3]==="") {
+                board[Math.floor(id/3)][id%3]=currentPlayer.getSymbol();
+            } else {
+                return;
+            }
         }
         updateUI();
         if(checkWin()) {
-            gameOver = true;
             results("win", currentPlayer);
         } else if(checkDraw()){
             results("draw");
@@ -63,6 +62,16 @@ const GameBoard = (() => {
         }
         return true;
     }
+    const restart = () => {
+        for(let i=0;i<3;i++){
+            for(let j=0;j<3;j++){
+                board[i][j]="";
+            }
+        }
+        updateUI();
+        player1 = undefined;
+        player2 = undefined;
+    }
     const updateUI = () => {
         for(let i=0;i<9;i++){
             document.getElementById(`${i}`).textContent = board[Math.floor(i/3)][i%3];
@@ -72,7 +81,8 @@ const GameBoard = (() => {
         addSymbol,
         setPlayer,
         updatePlayer,
-        currentPlayer
+        currentPlayer,
+        restart
     }
 })();
 
@@ -108,4 +118,20 @@ function play() {
 
 function results(result, winner) {
     resultDiv.classList.remove("hidden");
+    const finalResult = document.querySelector("#final_result");
+    if(result==="win") {
+        finalResult.textContent = `${winner.getName()} Wins!`;
+    } else {
+        finalResult.textContent = "It's a Draw!";
+    }
+
+    const restartButton = document.querySelector("#new_game");
+    restartButton.addEventListener("click", ()=>{
+        GameBoard.restart();
+        resultDiv.classList.add("hidden");
+        playDiv.classList.add("hidden");
+        nameDiv.classList.remove("hidden");
+        document.querySelector("#name1").value = "";
+        document.querySelector("#name2").value = "";
+    })
 }
