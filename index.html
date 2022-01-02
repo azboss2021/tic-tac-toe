@@ -3,59 +3,34 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
     <link rel="stylesheet" href="styles.css">
+    <title>Document</title>
 </head>
 <body>
+    <div id="names" class="">
+        <p>Player 1</p><input id="name1">
+        <p>Player 2</p><input id="name2">
+        <button id="submit">Play</button>
+    </div>
 
-    <div class="gamemode_screen">
-        <p>Tic Tac Toe</p>
-        <div class="choices">
-            <button id="ai">AI</button>
-            <button id="mp">2P</button>
+    <div id="play" class="hidden">
+        <p id="current_player"></p>
+        <div id="board">
+            <button id="0" class="square"></button>
+            <button id="1" class="square"></button>
+            <button id="2" class="square"></button>
+            <button id="3" class="square"></button>
+            <button id="4" class="square"></button>
+            <button id="5" class="square"></button>
+            <button id="6" class="square"></button>
+            <button id="7" class="square"></button>
+            <button id="8" class="square"></button>
         </div>
     </div>
 
-    <div class="ai_name_screen hidden">
-        <div class="name_area">
-            <p>Player 1</p>
-            <input type="text" class="ai_first_player_name">
-        </div>
-
-        <button class="ai_submit">Play</button>
-    </div>
-
-    <div class="mp_name_screen hidden">
-        <div class="name_area">
-            <p>Player 1</p>
-            <input type="text" class="mp_first_player_name">
-        </div>
-        <div class="name_area">
-            <p>Player 2</p>
-            <input type="text" class="second_player_name">
-        </div>
-
-        <button class="mp_submit">Play</button>
-    </div>
-
-    <div class="play_screen hidden">
-        <p class="current_player"></p>
-        <div class="play_area">
-            <button class="square" id="0"></button>
-            <button class="square" id="1"></button>
-            <button class="square" id="2"></button>
-            <button class="square" id="3"></button>
-            <button class="square" id="4"></button>
-            <button class="square" id="5"></button>
-            <button class="square" id="6"></button>
-            <button class="square" id="7"></button>
-            <button class="square" id="8"></button>
-        </div>
-    </div>
-
-    <div class="result_screen hidden">
-        <p class="result">Player Has Won!</p>
-        <button class="new_game">New Game</button>
+    <div id="result" class="hidden">
+        <p id="result"></p>
+        <button id="new_game">Play</button>
     </div>
 
     <script src="script.js"></script>

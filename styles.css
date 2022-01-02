@@ -1,90 +1,57 @@
-body {
-    margin: 0;
-    display: flex;
-    height: 100vh;
-}
-
 :root {
     --cell-size: 100px;
-    --mark-size: 4rem;
+    --cell-font-size: 4rem;
 }
 
+body {
+    height: 100vh;
+    display: flex;
+}
 
-/* ------ GAMEMODE SCREEN ------ */
-.gamemode_screen, .ai_name_screen, .mp_name_screen, .result_screen {
+#names {
     margin: auto;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 1rem;
+    gap: .5rem;
 }
 
-.gamemode_screen p {
+#names.hidden {
+    display: none;
+}
+
+#result.hidden {
+    display: none;
+}
+
+#play.hidden {
+    display: none;
+}
+
+#names > p {
     margin: 0;
-    font-size: 2rem;
 }
 
-.gamemode_screen button {
-    padding: .5rem 2rem;
-    font-size: 1.5rem;
-    color: white;
-}
-
-#ai {
-    background: rgba(180,0,0,.7)
-}
-
-#mp {
-    background: rgba(0,0,200,.7)
-}
-
-
-/* ------ NAME SCREEN ------ */
-.name_area {
-    display: flex;
-    gap: 1rem;
-    font-size: 1.25rem;
-}
-
-.name_area input {
-    font-size: 1.25rem;
-    width: 200px;
-    padding: .5rem;
-}
-
-.ai_submit, .mp_submit {
-    padding: .5rem 1rem;
-    font-size: 1.25rem;
-    background: rgba(0,255,0,.5)
-}
-
-
-/* ------ PLAY SCREEN ------ */
-.play_screen {
-    display: flex;
-    flex-direction: column;
+#play {
     margin: auto;
-    widtH: 300px;
 }
 
-.current_player {
-    font-size: 2rem;
-    margin: .5rem;
+#current_player {
+    font-size: 1.5rem;
 }
 
-.play_area {
+#board {
+    margin: auto;
     display: grid;
+    justify-content: center;
+    align-items: center;
     grid-template-columns: repeat(3, auto);
 }
 
 .square {
-    height: var(--cell-size);
     width: var(--cell-size);
-    border: 2px solid black;
-    background: none;
-    font-size: var(--mark-size);
-    align-items: center;
-    justify-content: center;
+    height: var(--cell-size);
+    font-size: var(--cell-font-size);
+    border: 3px solid black;
 }
 
 .square:first-child,
@@ -93,42 +60,20 @@ body {
     border-top: none;
 }
 
-.square:nth-child(3n+1) {
-    border-left: none;
-}
-
-.square:nth-child(3n+3) {
-    border-right: none;
-}
-
 .square:last-child,
 .square:nth-child(7),
 .square:nth-child(8) {
     border-bottom: none;
 }
 
-
-/* ------ RESULT SCREEN ------ */
-.result_screen {
-    background: rgba(0,0,0,.2);
-    padding: 2rem;
-    z-index: 10;
+.square:nth-child(3),
+.square:nth-child(6),
+.square:nth-child(9) {
+    border-right: none;
 }
 
-.result_screen p {
-    font-size: 1.5rem;
-    margin: 0;
-}
-
-.new_game {
-    padding: .5rem 1rem;
-    width: 10rem;
-    font-size: 1.25rem;
-    color: white;
-    background: rgba(0,0,255,.7)
-}
-
-/* ------ HELPER CLASS ------ */
-.hidden {
-    display: none;
+.square:first-child,
+.square:nth-child(4),
+.square:nth-child(7) {
+    border-left: none;
 }
