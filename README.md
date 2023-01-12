@@ -1,7 +1,22 @@
-# tic-tac-toe
-The Odin Project tic-tac-toe.
+# Tic-Tac-Toe Project
 
-Learned basic Javascript, HTML and CSS.
+## A basic Tic-Tac-Toe game that lets you play with someone else locally.
 
+This project was built while following [The Odin Project](https://www.theodinproject.com/) curriculum. The app is functional, albeit plain. Try out the demo below.
 
-Live: https://azboss2021.github.io/tic-tac-toe/
+➡️ [LIVE DEMO](https://azboss2021.github.io/tic-tac-toe/)
+
+## What I used/learned:
+
+* Basic CSS
+* Basic Javascript objects
+* DOM Manipulation/Interactibility
+
+## Screenshot Preview
+
+![screenshot](./screenshot_tic-tac-toe.png?raw=true)
+
+## What could be improved
+
+* UI/UX
+* Lacking AI
