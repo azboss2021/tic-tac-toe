@@ -18,5 +18,6 @@ This project was built while following [The Odin Project](https://www.theodinpro
 
 ## What could be improved
 
+* Display responsiveness (Originally made for 16:9 1080p screens)
 * UI/UX
 * Lacking AI
